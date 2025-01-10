@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ArtisataRequest;
+use App\Http\Requests\ArtistaRequest;
 use App\Models\Artista;
 use Illuminate\Http\Request;
 
@@ -15,8 +17,9 @@ class ArtistaController extends Controller
     public function index()
     {
         //
-        
-        return view('admin.artistas.create');
+         //
+         return view('admin.artistas.create');
+       
     }
 
     /**
@@ -26,7 +29,7 @@ class ArtistaController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**

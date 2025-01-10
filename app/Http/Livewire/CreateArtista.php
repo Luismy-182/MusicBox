@@ -2,10 +2,14 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Artista;
 use App\Models\User;
+use App\Models\Artista;
 use Livewire\Component;
+use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
+use App\Http\Requests\ArtistaRequest;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class CreateArtista extends Component
 {
@@ -21,31 +25,36 @@ class CreateArtista extends Component
 
     use WithFileUploads;
 
-    protected $rules=[
-        'nombre'=>['required','unique:artistas','min:5','max:100'],
-        'voz'=>['required','min:5','max:100'],
-        'guitarra1'=>['required','min:5','max:100'],
-        'guitarra2'=>['max:100'],
-        'bateria'=>['required','min:5','max:100'],
-        'bajo'=>['required','min:5','max:100'],
-        'imagen'=>['required','image'],
-        'descripcion'=>['required','min:5','max:500'],
-    ];
 
+
+    protected function rules(): array 
+    {
+        return (new ArtistaRequest())->rules(); //mandamos a llamar el metodo con sus reglas para validar
+    } 
+
+    public function storeImage(){
+            if(!$this->imagen){
+                return '';
+            }
+
+           
+    }
 
     public function createArtista(){
        
         //Valida
         $datos=$this->validate();
        
-   
-       
-        //almacenar la imagen
-        $imagen_ruta=$this->imagen->store('public/artistas/'.$this->nombre);
+        //intervention image
+
+        $image=$this->storeImage();
+
+        // //almacenar la imagen
+        // $imagen_ruta=$this->imagen->store('public/artistas/'.$this->nombre);
 
       
-        //extraer solo el nombre de la imagen de toda la ruta
-        $nombre_imagen=str_replace('public/artistas/'.$this->nombre.'/', '',$imagen_ruta);
+        // //extraer solo el nombre de la imagen de toda la ruta
+        // $nombre_imagen=str_replace('public/artistas/'.$this->nombre.'/', '',$imagen_ruta);
 
       
         //crear el artista, insertando
@@ -56,7 +65,7 @@ class CreateArtista extends Component
             'guitarra2'=>$datos['guitarra2'],
             'bateria'=>$datos['bateria'],
             'bajo'=>$datos['bajo'],
-            'imagen'=>$nombre_imagen,
+            'imagen'=>$image, //$nombre_imagen,
             'descripcion'=>$datos['descripcion'],
         ]);
 

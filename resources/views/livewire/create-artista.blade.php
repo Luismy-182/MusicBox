@@ -66,7 +66,10 @@
     <div>
         <label for="imagen" class="text-gray-500 block mb-2">Imagen banda *</label>
         <input type="file" accept="image/*" class="block mt-1 w-full" wire:model="imagen">
-
+       
+        @error('imagen')
+        <livewire:mostrar-alertas :message="$message">
+        @enderror
         <div class="my-5 w-90">
             @if($imagen)
             Imagen:

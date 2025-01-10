@@ -12,7 +12,6 @@ class EditArtista extends Component
     public $artista_id;
     public $nombre;
     public $voz;
-    
     public $guitarra1;
     public $guitarra2;
     public $bateria;

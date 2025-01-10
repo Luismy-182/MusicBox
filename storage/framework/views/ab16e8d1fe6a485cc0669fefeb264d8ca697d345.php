@@ -262,7 +262,31 @@ unset($__errorArgs, $__bag); ?>
     <div>
         <label for="imagen" class="text-gray-500 block mb-2">Imagen banda *</label>
         <input type="file" accept="image/*" class="block mt-1 w-full" wire:model="imagen">
-
+       
+        <?php $__errorArgs = ['imagen'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+        <?php
+if (! isset($_instance)) {
+    $html = \Livewire\Livewire::mount('mostrar-alertas', ['message' => $message])->html();
+} elseif ($_instance->childHasBeenRendered('l2878971252-7')) {
+    $componentId = $_instance->getRenderedChildComponentId('l2878971252-7');
+    $componentTag = $_instance->getRenderedChildComponentTagName('l2878971252-7');
+    $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
+    $_instance->preserveRenderedChild('l2878971252-7');
+} else {
+    $response = \Livewire\Livewire::mount('mostrar-alertas', ['message' => $message]);
+    $html = $response->html();
+    $_instance->logRenderedChild('l2878971252-7', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+}
+echo $html;
+?>
+        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
         <div class="my-5 w-90">
             <?php if($imagen): ?>
             Imagen:
